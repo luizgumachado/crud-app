@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@300;500;800&display=swap');
+
 html {
     box-sizing: border-box;
     font-size: 62.5%;
@@ -6,31 +8,99 @@ html {
 body {
     margin: 0;
     padding: 0;
+    /* background-color: #282828; */
+    background-color: black;
+    color: white;
+    font-family: 'Onest', sans-serif;
 }
 
-input, button, select {
+input, button, select, a {
     font: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+header {
+    padding: 1.5em 3em;
+    width: 100%;
+    font-size: 2rem;
+}
+
+.container {
+    width: 70%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.add-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 2.5em;
+}
+
+h2 {
+    font-size: 4rem;
+}
+
+.add-header span {
+    font-size: 3rem;
+}
+
+.add-header a {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 1em 2em;
+    text-align: center;
+    color: black;
+    background-color: rgb(255, 162, 0);
+    border-radius: 1em;
+    overflow: hidden;
+    transition: all .2s ease;
+}
+
+.add-header a:hover {
+    background-color: rgb(255, 191, 81);
 }
 
 .card-jogo {
     width: 25rem;
     position: relative;
     overflow: hidden;
-    border: 1px solid black;
+    background-color: #282828;
     border-radius: 2rem;
+    transition: all .5s ease;
 }
 
-.remove-btn {
-    position: absolute;
-    top: 3%;
-    left: 83%;
+.card-jogo:hover {
+    transform: scale(1.05);
+}
+
+.card-top {
+    height: 312px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: all .5s ease;
     cursor: pointer;
 }
 
-.card-jogo img {
-    width: 100%;
-    object-fit: cover;
-    border-bottom: 1px solid black;
+.card-top:hover {
+    transform: scale(1.05);
+    filter: brightness(0.6) grayscale(1) blur(1px);
+}
+
+.card-options {
+    display: flex;
+    gap: 12em;
+    padding: 1em 2.5em 2em 2.5em;
+}
+
+.remove-btn {
+    cursor: pointer;
 }
 
 .card-jogo h2{
@@ -41,10 +111,53 @@ input, button, select {
 }
 
 .card-details {
-    padding-left: 1.5rem;
-    padding-bottom: 2rem;
+    padding: 1rem 0.5rem 2rem 2rem;
     display: flex;
     justify-content: space-between;
-    width: 70%;
+    width: 80%;
     font-size: 1.5rem;
+}
+
+#gameList {
+    padding: 3em 2em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6em;
+}
+
+form {
+    width: 100%;
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.8rem;
+    gap: 1em;
+}
+
+form label {
+    float: left;
+    width: 12em;
+}
+
+form input {
+    width: 15em;
+}
+
+#submit {
+    width: 5em;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+}
+
+.error-message {
+    padding: 0.5em 0 0 1em;
+    color: rgb(255, 113, 113);
+}
+
+.btn-wrapper {
+    padding-top: 0.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 10em;
 }

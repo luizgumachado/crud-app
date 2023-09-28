@@ -12,35 +12,39 @@
     </header>
     
     <div class="container">
+        <h2>
+            Cadastrar/Editar Jogo
+        </h2>
+
         <form action="" id="form">
             <div class="input-wrapper">
                 <label for="title">Título:</label>
                 <input type="text" id="title">
-                <div id="titleErrorMessage"></div>
+                <div id="titleErrorMessage" class="error-message"></div>
             </div>
 
             <div class="input-wrapper">
                 <label for="genre">Gênero:</label>
                 <input type="text" id="genre">
-                <div id="genreErrorMessage"></div>
+                <div id="genreErrorMessage" class="error-message"></div>
             </div>
 
             <div class="input-wrapper">
                 <label for="developer">Desenvolvedora:</label>
                 <input type="text" id="developer">
-                <div id="developerErrorMessage"></div>
+                <div id="developerErrorMessage" class="error-message"></div>
             </div>
 
             <div class="input-wrapper">
                 <label for="publisher">Publisher:</label>
                 <input type="text" id="publisher">
-                <div id="publisherErrorMessage"></div>
+                <div id="publisherErrorMessage" class="error-message"></div>
             </div>
 
             <div class="input-wrapper">
                 <label for="releaseDate">Data de Lançamento:</label>
                 <input type="date" id="releaseDate">
-                <div id="releaseDateErrorMessage"></div>
+                <div id="releaseDateErrorMessage" class="error-message"></div>
             </div>
 
             <div class="input-wrapper">
@@ -54,11 +58,12 @@
                 <input type="url" id="image">
             </div>
 
-            <div class="input-wrapper">
-                <input type="submit" value="Cadastrar" id="submit">
-            </div>
-
-            <a href="/index.html" class="botãoVoltar">Página Inicial</a>
+                <div class="btn-wrapper">
+                    <div class="input-wrapper">
+                        <input type="submit" value="Enviar" id="submit">
+                    </div>
+                    <a href="/index.html" class="botãoVoltar">Cancelar</a>
+                </div>
         </form>
     </div>
 
