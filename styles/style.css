@@ -68,7 +68,6 @@ h2 {
 
 .card-jogo {
     width: 25rem;
-    position: relative;
     overflow: hidden;
     background-color: #282828;
     border-radius: 2rem;
@@ -80,42 +79,60 @@ h2 {
 }
 
 .card-top {
+    position: relative;
     height: 312px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.card-top::before {
+    content: "";
     transition: all .5s ease;
-    cursor: pointer;
 }
 
-.card-top:hover {
-    transform: scale(1.05);
-    filter: brightness(0.6) grayscale(1) blur(1px);
-}
-
-.card-options {
+.card-top:hover > .card-options {
     display: flex;
-    gap: 12em;
-    padding: 1em 2.5em 2em 2.5em;
 }
 
-.remove-btn {
-    cursor: pointer;
+.card-top:hover::before {
+    content: "";
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+    backdrop-filter: brightness(0.5) blur(1px);
+}
+
+.card-details {
+    width: 80%;
+    margin: 1em auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1em;
+    font-size: 1.5rem;
 }
 
 .card-jogo h2{
     margin: 0;
-    padding: 1.5rem 1.8rem 1.8rem 1.5rem;
     font-size: 2rem;
     font-weight: 500;
 }
 
-.card-details {
-    padding: 1rem 0.5rem 2rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    font-size: 1.5rem;
+.card-options {
+    gap: 2em;
+    position: absolute;
+    top: 44%;
+    left: 32%;
+    display: none;
+    transition: all .2s ease;
+}
+
+.remove-btn {
+    cursor: pointer;
 }
 
 #gameList {
