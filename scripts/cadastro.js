@@ -1,9 +1,29 @@
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
+function getJogo(id) {
+    if (id) {
+        indexJogo = arrayJogos.findIndex((jogo) => jogo.id === id);
+
+        if (indexJogo == -1) return;
+    
+        const jogo = arrayJogos[indexJogo];
+        title.value = jogo.titulo;
+        genre.value = jogo.genero;
+        developer.value = jogo.desenvolvedor;
+        publisher.value = jogo.publisher;
+        releaseDate.value = jogo.dataLancamento.split("-").reverse().join("-");
+        steamLink.value = (jogo.steamLink == "Not Available") ? "" : jogo.steamLink;
+        image.value = (jogo.image == "/assets/generic-image.jpg") ? "" : jogo.image;
+      }
+}
 
 //JS black magic
 const arrayJogos = JSON.parse(localStorage.getItem('arrayJogos')) || [];       
 let indexJogo;
+
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
+getJogo(id);
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -38,7 +58,7 @@ form.addEventListener('submit', (event) => {
     releaseDateErrorMessage.innerText = "";
 
     if(novoJogo.image == "") {
-        novoJogo.image = "/assets/generic-image.jpg"
+        novoJogo.image = "/assets/generic-image.jpg";
     }
 
     if(novoJogo.titulo == "") {
@@ -74,8 +94,8 @@ form.addEventListener('submit', (event) => {
         novoJogo.steamLink = "Not Available"
     }
 
-    if(indexJogo) {
-        arrayJogos[jogoIndex] = novoJogo;
+    if(indexJogo != undefined) {
+        arrayJogos[indexJogo] = novoJogo;
     } else {
         arrayJogos.push(novoJogo);
     }
