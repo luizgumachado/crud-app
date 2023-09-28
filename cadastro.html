@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyVidiaList</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+    <header>
+        <span id="logo">MyVidiaList</span>
+    </header>
+    
+    <div class="container">
+        <form action="" id="form">
+            <div class="input-wrapper">
+                <label for="title">Título:</label>
+                <input type="text" id="title">
+                <div id="titleErrorMessage"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="genre">Gênero:</label>
+                <input type="text" id="genre">
+                <div id="genreErrorMessage"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="developer">Desenvolvedora:</label>
+                <input type="text" id="developer">
+                <div id="developerErrorMessage"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="publisher">Publisher:</label>
+                <input type="text" id="publisher">
+                <div id="publisherErrorMessage"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="releaseDate">Data de Lançamento:</label>
+                <input type="date" id="releaseDate">
+                <div id="releaseDateErrorMessage"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="steamLink">Link na Steam:</label>
+                <input type="url" id="steamLink">
+            </div>
+
+            <!-- use an api in future versions - RAWG -->
+            <div class="input-wrapper">
+                <label for="image">Adicione uma imagem:</label>
+                <input type="url" id="image">
+            </div>
+
+            <div class="input-wrapper">
+                <input type="submit" value="Cadastrar" id="submit">
+            </div>
+
+            <a href="/index.html" class="botãoVoltar">Página Inicial</a>
+        </form>
+    </div>
+
+    <script type="module" src="/scripts/cadastro.js"></script>
+</body>
+</html>
