@@ -8,7 +8,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-    /* background-color: #282828; */
+    width: 100vw;
     background-color: black;
     color: white;
     font-family: 'Onest', sans-serif;
@@ -25,12 +25,11 @@ a {
 
 header {
     padding: 1.5em 3em;
-    width: 100%;
     font-size: 2rem;
 }
 
 .container {
-    width: 70%;
+    width: 80%;
     max-width: 1600px;
     margin: 0 auto;
 }
@@ -67,15 +66,24 @@ h2 {
 }
 
 .card-jogo {
+    position: relative;
     width: 25rem;
-    overflow: hidden;
-    background-color: #282828;
+    background-color: black;
     border-radius: 2rem;
     transition: all .5s ease;
 }
 
 .card-jogo:hover {
     transform: scale(1.05);
+    z-index: 2;
+}
+
+.card-jogo:hover>.card-details {
+    visibility: visible;
+}
+
+.card-jogo:hover>.card-top {
+    border-radius: 0;
 }
 
 .card-top {
@@ -84,6 +92,7 @@ h2 {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    border-radius: 2rem;
 }
 
 .card-top::before {
@@ -93,6 +102,7 @@ h2 {
 
 .card-top:hover > .card-options {
     display: flex;
+    align-items: center;
 }
 
 .card-top:hover::before {
@@ -106,14 +116,19 @@ h2 {
 }
 
 .card-details {
-    width: 80%;
-    margin: 1em auto;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #282828;
+    visibility: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
+    text-align: center;
+    width: 100%;
+    padding: 1em 0 1em 0;
     gap: 1em;
     font-size: 1.5rem;
+    border-radius: 0 0 1em 1em;
 }
 
 .card-jogo h2{
@@ -122,11 +137,15 @@ h2 {
     font-weight: 500;
 }
 
+.card-jogo h2:hover {
+    text-decoration: underline;
+}
+
 .card-options {
     gap: 2em;
     position: absolute;
     top: 44%;
-    left: 32%;
+    left: 22%;
     display: none;
     transition: all .2s ease;
 }
@@ -143,7 +162,7 @@ h2 {
 }
 
 form {
-    width: 100%;
+    max-width: 650px;
     padding: 1em 2em;
     display: flex;
     flex-direction: column;
@@ -160,10 +179,31 @@ form input {
     width: 15em;
 }
 
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+input[type=text], input[type=url], input[type=date] {
+    padding: 0.3em 0.5em;
+    border-radius: 0.5em;
+}
+
 #submit {
     width: 5em;
     padding: 0.5em 1em;
     border-radius: 1em;
+    background-color: rgb(255, 162, 0);
+    transition: all .3s ease;
+}
+
+#submit:hover {
+    background-color: rgb(255, 191, 81);
+}
+
+.botãoVoltar:hover {
+    text-decoration: underline;
 }
 
 .error-message {
@@ -177,4 +217,13 @@ form input {
     justify-content: space-between;
     align-items: center;
     width: 10em;
+}
+
+footer {
+    margin-top: 10em;
+    padding-bottom: 2em;
+    width: 100%;
+    text-align: center;
+    font: inherit;
+    font-size: 1.5rem;
 }

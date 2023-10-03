@@ -1,25 +1,42 @@
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+const URL = "https://crudcrud.com/api/e56f4b59007a405598a9f0677a9bc6b0/arrayJogos";
 
-function getJogo(id) {
+async function getJogo(id) {
     if (id) {
-        indexJogo = arrayJogos.findIndex((jogo) => jogo.id === id);
+        const response = await fetch(URL + `/${id}`);
+        const jogo = await response.json();
 
-        if (indexJogo == -1) return;
-    
-        const jogo = arrayJogos[indexJogo];
         title.value = jogo.titulo;
         genre.value = jogo.genero;
         developer.value = jogo.desenvolvedor;
-        publisher.value = jogo.publisher;
         releaseDate.value = jogo.dataLancamento.split("-").reverse().join("-");
         steamLink.value = (jogo.steamLink == "Not Available") ? "" : jogo.steamLink;
         image.value = (jogo.image == "/assets/generic-image.jpg") ? "" : jogo.image;
       }
 }
 
-//JS black magic
-const arrayJogos = JSON.parse(localStorage.getItem('arrayJogos')) || [];       
-let indexJogo;
+async function addJogo(jogo) {
+    const response = await fetch(URL, {
+        method: "POST",
+        body: JSON.stringify(jogo),
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    return await response.json();
+}
+
+async function editJogo(id, jogo) {
+    const response = await fetch(URL + `/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(jogo),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    return await response;
+}
+
+//data de hoje
+const dataAtual = (new Date()).toISOString().split("T")[0];
+releaseDate.max = dataAtual;
 
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
@@ -33,18 +50,15 @@ form.addEventListener('submit', (event) => {
         title: titulo,
         genre: genero,
         developer: desenvolvedor,
-        publisher,
         releaseDate: dataLancamento,
         steamLink
     } = event.target;
 
     const novoJogo = {
-        id: uuidv4(),
         image: imagem.value,
         titulo: titulo.value,
         genero: genero.value,
         desenvolvedor: desenvolvedor.value,
-        publisher: publisher.value,
         dataLancamento: 
             dataLancamento.value.split("-").reverse().join("-"),
         steamLink: steamLink.value
@@ -54,7 +68,6 @@ form.addEventListener('submit', (event) => {
     titleErrorMessage.innerText = "";
     genreErrorMessage.innerText = "";
     developerErrorMessage.innerText = "";
-    publisherErrorMessage.innerText = "";
     releaseDateErrorMessage.innerText = "";
 
     if(novoJogo.image == "") {
@@ -76,11 +89,6 @@ form.addEventListener('submit', (event) => {
         invalidForm = true;
     }
 
-    if(novoJogo.publisher == "") {
-        publisherErrorMessage.innerText = "Publisher Obrigatório";
-        invalidForm = true;
-    }
-
     if(novoJogo.dataLancamento == "") {
         releaseDateErrorMessage.innerText = "Data de Lançamento Obrigatória";
         invalidForm = true;
@@ -94,15 +102,11 @@ form.addEventListener('submit', (event) => {
         novoJogo.steamLink = "Not Available"
     }
 
-    if(indexJogo != undefined) {
-        arrayJogos[indexJogo] = novoJogo;
+    if(id) {
+        editJogo(id, novoJogo).then(console.log);
     } else {
-        arrayJogos.push(novoJogo);
+        addJogo(novoJogo).then((data) => console.log(data));
     }
-
-    console.log(arrayJogos);
-
-    localStorage.setItem('arrayJogos', JSON.stringify(arrayJogos));
 
     form.reset();
     window.location = '/index.html';

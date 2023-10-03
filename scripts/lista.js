@@ -1,15 +1,35 @@
-const arrayJogos = JSON.parse(localStorage.getItem("arrayJogos")) || [];
+const URL = "https://crudcrud.com/api/e56f4b59007a405598a9f0677a9bc6b0/arrayJogos";
 
-arrayJogos.forEach((jogo, index) => {
+//puxando os jogos pela API
+async function getJogos() {
+    const response = await fetch(URL);
+    return await response.json();
+}
+
+//deletando jogos
+async function deletarJogo(id) {
+    const response = await fetch(URL + `/${id}`, { method: "DELETE" });
+    if (response.status == 200) return "Jogo removido com sucesso!";
+    return "Erro - Não foi possível remover o jogo!";
+}
+
+function criarNovoCard(jogo) {
     const cardJogo = document.createElement("div");
     cardJogo.className = "card-jogo";
 
+    const linkSteam = document.createElement("a");
+    linkSteam.innerText = `${jogo.titulo}`;
+    linkSteam.href = `${jogo.steamLink}`;
+    linkSteam.target = "_blank";
+
     const tituloJogo = document.createElement("h2");
-    tituloJogo.innerText = `${jogo.titulo}`;
+    tituloJogo.appendChild(linkSteam);
 
     const cardDetails = document.createElement("div");
     cardDetails.className = "card-details";
-    cardDetails.appendChild(tituloJogo);
+
+    const mainInfo = document.createElement("div");
+    mainInfo.className = "main-info";
 
     const generoJogo = document.createElement("span");
     generoJogo.innerText = `${jogo.genero}`;
@@ -17,37 +37,47 @@ arrayJogos.forEach((jogo, index) => {
     const anoLancamento = document.createElement("span");
     anoLancamento.innerText = `${jogo.dataLancamento.slice(-4)}`;
 
+    const desenvolvedora = document.createElement("span");
+    desenvolvedora.innerText = `${jogo.desenvolvedor}`;
+
+    cardDetails.appendChild(tituloJogo);
     cardDetails.appendChild(generoJogo);
-    cardDetails.appendChild(anoLancamento);
+    cardDetails.appendChild(anoLancamento); 
+    cardDetails.appendChild(desenvolvedora);
 
     const editBtn = document.createElement("a");
     editBtn.className = "edit-btn";
-    editBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35" viewBox="0 0 32 32" fill="rgb(255, 162, 0)">
-            <path d="M 23.90625 3.96875 C 22.859375 3.96875 21.8125 4.375 21 5.1875 L 5.1875 21 L 5.125 21.3125 L 4.03125 26.8125 L 3.71875 28.28125 L 5.1875 27.96875 L 10.6875 26.875 L 11 26.8125 L 26.8125 11 C 28.4375 9.375 28.4375 6.8125 26.8125 5.1875 C 26 4.375 24.953125 3.96875 23.90625 3.96875 Z M 23.90625 5.875 C 24.410156 5.875 24.917969 6.105469 25.40625 6.59375 C 26.378906 7.566406 26.378906 8.621094 25.40625 9.59375 L 24.6875 10.28125 L 21.71875 7.3125 L 22.40625 6.59375 C 22.894531 6.105469 23.402344 5.875 23.90625 5.875 Z M 20.3125 8.71875 L 23.28125 11.6875 L 11.1875 23.78125 C 10.53125 22.5 9.5 21.46875 8.21875 20.8125 Z M 6.9375 22.4375 C 8.136719 22.921875 9.078125 23.863281 9.5625 25.0625 L 6.28125 25.71875 Z"></path>
-        </svg>
-    `;
-    editBtn.href = `/cadastro.html?id=${jogo.id}`;
+    editBtn.href = `/cadastro.html?id=${jogo._id}`;
 
-    const removeBtn = document.createElement("div");
+    const editIcon = document.createElement("img");
+    editIcon.src = "/assets/icons/icons8-edit.svg"
+    editBtn.appendChild(editIcon);
+
+    const removeBtn = document.createElement("img");
     removeBtn.className = "remove-btn";
-    removeBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35" viewBox="0 0 32 32" fill="rgb(255, 162, 0)">
-            <path d="M 7.21875 5.78125 L 5.78125 7.21875 L 14.5625 16 L 5.78125 24.78125 L 7.21875 26.21875 L 16 17.4375 L 24.78125 26.21875 L 26.21875 24.78125 L 17.4375 16 L 26.21875 7.21875 L 24.78125 5.78125 L 16 14.5625 Z"></path>
-        </svg>
-    `;
+    removeBtn.src = "/assets/icons/icons8-delete.svg"
     removeBtn.addEventListener("click", () => {
         if (confirm("Deseja remover o jogo da lista?")) {
-            arrayJogos.splice(index, 1);
-            localStorage.setItem("arrayJogos", JSON.stringify(arrayJogos));
+            console.log(jogo)
+            deletarJogo(jogo._id).then(console.log);
             location.reload();
-          }
+        }
     });
+
+    const steamBtn = document.createElement("a");
+    steamBtn.href = `${jogo.steamLink}`;
+    steamBtn.target = "_blank";
+
+    const steamIcon = document.createElement("img");
+    steamIcon.src = "/assets/icons/icons8-steam.svg";
+
+    steamBtn.appendChild(steamIcon);
 
     const cardOptions = document.createElement("div");
     cardOptions.className = "card-options";
     cardOptions.appendChild(editBtn);
     cardOptions.appendChild(removeBtn);
+    cardOptions.appendChild(steamBtn);
 
     const cardTop = document.createElement("div");
     cardTop.className = "card-top";
@@ -59,4 +89,22 @@ arrayJogos.forEach((jogo, index) => {
     cardJogo.appendChild(cardDetails);
 
     gameList.appendChild(cardJogo);
-});
+}
+
+//primeira execução
+gameList.innerHTML = "";
+getJogos().then((arrayJogos) => {
+    arrayJogos.forEach((jogo) => {
+      criarNovoCard(jogo);
+    });
+  });
+
+//execuções seguintes - a cada 5s
+const intervalo = setInterval(() => {
+    gameList.innerHTML = "";
+    getJogos().then((arrayJogos) => {
+      arrayJogos.forEach((jogo) => {
+        criarNovoCard(jogo);
+      });
+    });
+  }, 5000);

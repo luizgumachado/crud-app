@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyVidiaList</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
     <header>
@@ -36,12 +36,6 @@
             </div>
 
             <div class="input-wrapper">
-                <label for="publisher">Publisher:</label>
-                <input type="text" id="publisher">
-                <div id="publisherErrorMessage" class="error-message"></div>
-            </div>
-
-            <div class="input-wrapper">
                 <label for="releaseDate">Data de Lançamento:</label>
                 <input type="date" id="releaseDate">
                 <div id="releaseDateErrorMessage" class="error-message"></div>
@@ -60,13 +54,18 @@
 
                 <div class="btn-wrapper">
                     <div class="input-wrapper">
-                        <input type="submit" value="Enviar" id="submit">
+                        <input type="submit" value="Enviar" id="submit" style="cursor: pointer">
                     </div>
-                    <a href="/index.html" class="botãoVoltar">Cancelar</a>
+                    <a href="index.html" class="botãoVoltar">Voltar</a>
                 </div>
         </form>
     </div>
 
-    <script type="module" src="/scripts/cadastro.js"></script>
+    <footer>
+        <p>Luiz Gustavo Souza - 2023</p>
+        <span>Icons by <a target="_blank" href="https://icons8.com">Icons8</a></span>
+    </footer>
+
+    <script type="module" src="scripts/cadastro.js"></script>
 </body>
 </html>
