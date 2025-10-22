@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyVidiaList</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <span id="logo">MyVidiaList</span>
+    </header>
+    
+    <main>
+        <h2>
+            Editar Jogo
+        </h2>
+
+        <form action="" id="form">
+            <div class="input-wrapper">
+                <label for="title">Título:</label>
+                <input type="text" id="title">
+                <div id="titleErrorMessage" class="error-message"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="genre">Gênero:</label>
+                <input type="text" id="genre">
+                <div id="genreErrorMessage" class="error-message"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="developer">Desenvolvedora:</label>
+                <input type="text" id="developer">
+                <div id="developerErrorMessage" class="error-message"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="releaseDate">Data de Lançamento:</label>
+                <input type="date" id="releaseDate">
+                <div id="releaseDateErrorMessage" class="error-message"></div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="steamLink">Link na Steam:</label>
+                <input type="url" id="steamLink">
+            </div>
+
+            <!-- use an api in future versions - RAWG -->
+            <div class="input-wrapper">
+                <label for="image">Adicione uma imagem:</label>
+                <input type="url" id="image">
+            </div>
+
+                <div class="btn-wrapper">
+                    <div class="input-wrapper">
+                        <input type="submit" value="Enviar" id="submit" style="cursor: pointer">
+                    </div>
+                    <a href="index.html" class="botãoVoltar">Voltar</a>
+                </div>
+        </form>
+    </main>
+
+    <footer>
+        <span>Luiz Gustavo Souza - 2023 | </span>
+        <span>Icons by <a target="_blank" href="https://icons8.com">Icons8</a></span>
+    </footer>
+
+    <script type="module" src="scripts/edit.js"></script>
+</body>
+</html>

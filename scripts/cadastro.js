@@ -1,46 +1,49 @@
-const URL = "https://crudcrud.com/api/e56f4b59007a405598a9f0677a9bc6b0/arrayJogos";
+import config from './secrets.js';
 
-async function getJogo(id) {
-    if (id) {
-        const response = await fetch(URL + `/${id}`);
-        const jogo = await response.json();
+const API_KEY = config.API_KEY;
 
-        title.value = jogo.titulo;
-        genre.value = jogo.genero;
-        developer.value = jogo.desenvolvedor;
-        releaseDate.value = jogo.dataLancamento.split("-").reverse().join("-");
-        steamLink.value = (jogo.steamLink == "Not Available") ? "" : jogo.steamLink;
-        image.value = (jogo.image == "/assets/generic-image.jpg") ? "" : jogo.image;
-      }
+if(!localStorage.getItem("arrayJogos")){
+    let arrayJogos = []
+    localStorage.setItem("arrayJogos", JSON.stringify(arrayJogos));
 }
 
-async function addJogo(jogo) {
-    const response = await fetch(URL, {
-        method: "POST",
-        body: JSON.stringify(jogo),
-        headers: { 'Content-Type': 'application/json' }
-    });
+const arrayJogos = JSON.parse(localStorage.getItem("arrayJogos"));
 
-    return await response.json();
+function getJogo(id) {
+    try {
+        const jogo = arrayJogos.find(jogoObj => jogoObj.id == id);
+        return jogo;
+    } catch (error) {
+        console.log(error);
+        window.alert("Something went wrong - Check console!");
+    }
 }
 
-async function editJogo(id, jogo) {
-    const response = await fetch(URL + `/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(jogo),
-      headers: { 'Content-Type': 'application/json' }
-    });
-    
-    return await response;
+function addJogo(jogo) {
+    try {
+        arrayJogos.push(jogo);
+        localStorage.setItem("arrayJogos", JSON.stringify(arrayJogos));
+        console.log(arrayJogos);
+    } catch (error) {
+        console.log(error);
+        window.alert("Something went wrong - Check console!");
+    }
+}
+
+function editJogo(id, jogo) {
+    try {
+        let currJogo = arrayJogos.find(jogoObj => jogoObj.id === id);
+        currJogo = jogo;
+        localStorage.setItem("arrayJogos", JSON.stringify(arrayJogos));
+    } catch (error) {
+        console.log(error);
+        window.alert("Something went wrong - Check console!");
+    }
 }
 
 //data de hoje
 const dataAtual = (new Date()).toISOString().split("T")[0];
 releaseDate.max = dataAtual;
-
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get('id');
-getJogo(id);
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -61,7 +64,8 @@ form.addEventListener('submit', (event) => {
         desenvolvedor: desenvolvedor.value,
         dataLancamento: 
             dataLancamento.value.split("-").reverse().join("-"),
-        steamLink: steamLink.value
+        steamLink: steamLink.value,
+        id: crypto.randomUUID()
     }
 
     let invalidForm = false;
@@ -102,12 +106,7 @@ form.addEventListener('submit', (event) => {
         novoJogo.steamLink = "Not Available"
     }
 
-    if(id) {
-        editJogo(id, novoJogo).then(console.log);
-    } else {
-        addJogo(novoJogo).then((data) => console.log(data));
-    }
-
+    addJogo(novoJogo);
     form.reset();
     window.location = '/index.html';
 });

@@ -68,87 +68,100 @@ h2 {
 
 .card-jogo {
     position: relative;
-    width: 25rem;
+    height: 30em;
+    min-width: 20em;
+    max-width: 25em;
     background-color: black;
     border-radius: 2rem;
     transition: all .5s ease;
+    overflow: hidden;
 }
 
 .card-jogo:hover {
     transform: scale(1.05);
-    z-index: 2;
 }
 
 .card-jogo:hover>.card-details {
-    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
-.card-jogo:hover>.card-top {
-    border-radius: 0;
-}
-
-.card-top {
-    position: relative;
-    height: 312px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 2rem;
-}
-
-.card-top::before {
-    content: "";
-    transition: all .5s ease;
-}
-
-.card-top:hover > .card-options {
+.card-jogo:hover>.card-options{
     display: flex;
     align-items: center;
+    visibility: visible;
+    z-index: 2;
 }
 
-.card-top:hover::before {
+.card-jogo:hover>.card-img::before{
     content: "";
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
     position: absolute;
-    backdrop-filter: brightness(0.5) blur(1px);
+    backdrop-filter: brightness(0.2) blur(5px);
+}
+
+.card-img {
+    position: relative;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card-img::before {
+    content: "";
+    transition: all .5s ease;
 }
 
 .card-details {
     position: absolute;
-    top: 100%;
+    top: 16%;
     left: 0;
-    background-color: #282828;
-    visibility: hidden;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+    background: transparent;
+    display: none;
     width: 100%;
     padding: 1em 0 1em 0;
-    gap: 1em;
+    gap: .5em;
     font-size: 1.5rem;
     border-radius: 0 0 1em 1em;
+    z-index: 2;
 }
 
-.card-jogo h2{
-    margin: 0;
+.card-details h2{
+    margin-bottom: 1.5rem;
     font-size: 2rem;
     font-weight: 500;
 }
 
-.card-jogo h2:hover {
+.card-details h2:hover {
     text-decoration: underline;
 }
 
+.card-details div{
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.2rem;
+}
+
 .card-options {
-    gap: 2em;
+    gap: 1.8em;
     position: absolute;
-    top: 44%;
-    left: 22%;
+    bottom: 3%;
+    left: 50%;
     display: none;
+    visibility: hidden;
     transition: all .2s ease;
+    transform: translateX(-50%);
+}
+
+.card-options img{
+    scale: 66%;
 }
 
 .remove-btn {
@@ -157,9 +170,30 @@ h2 {
 
 #gameList {
     padding: 3em 2em;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6em;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(5em, 20em));
+    gap: 5em;
+}
+
+@media only screen and (max-width: 768px) {
+    .card-jogo {
+        position: relative;
+        height: 30em;
+        max-width: 100%;
+        background-color: black;
+        border-radius: 2rem;
+        transition: all .5s ease;
+        overflow: hidden;
+    }
+    
+    #gameList {
+        padding: 3em 2em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5em;
+    }
 }
 
 form {

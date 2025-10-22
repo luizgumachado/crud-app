@@ -1,16 +1,20 @@
-const URL = "https://crudcrud.com/api/e56f4b59007a405598a9f0677a9bc6b0/arrayJogos";
-
-//puxando os jogos pela API
-async function getJogos() {
-    const response = await fetch(URL);
-    return await response.json();
+if(!localStorage.getItem("arrayJogos")){
+    let arrayJogos = []
+    localStorage.setItem("arrayJogos", JSON.stringify(arrayJogos));
 }
 
+const arrayJogos = JSON.parse(localStorage.getItem("arrayJogos"));
+
 //deletando jogos
-async function deletarJogo(id) {
-    const response = await fetch(URL + `/${id}`, { method: "DELETE" });
-    if (response.status == 200) return "Jogo removido com sucesso!";
-    return "Erro - Não foi possível remover o jogo!";
+function deletarJogo(id) {
+    try {
+      const index = arrayJogos.findIndex(jogo => jogo.id === id);
+      arrayJogos.splice(index, 1);
+      localStorage.setItem("arrayJogos", JSON.stringify(arrayJogos));
+    } catch (error) {
+      console.log(error)
+      alert("Something went wrong - Check Console!");
+    }
 }
 
 function criarNovoCard(jogo) {
@@ -31,19 +35,34 @@ function criarNovoCard(jogo) {
     const mainInfo = document.createElement("div");
     mainInfo.className = "main-info";
 
+    const generoJogoDiv = document.createElement("div");
+    const generoJogoLabel = document.createElement("span");
     const generoJogo = document.createElement("span");
+    generoJogoLabel.innerText = "Gênero:";
     generoJogo.innerText = `${jogo.genero}`;
+    generoJogoDiv.appendChild(generoJogoLabel);
+    generoJogoDiv.appendChild(generoJogo);
 
-    const anoLancamento = document.createElement("span");
-    anoLancamento.innerText = `${jogo.dataLancamento.slice(-4)}`;
+    const dataLancamentoDiv = document.createElement("div");
+    const dataLancamentoLabel = document.createElement("span");
+    const dataLancamento = document.createElement("span");
+    dataLancamentoLabel.innerText = "Lançamento:";
+    dataLancamento.innerText = `${convertDateFormat(jogo.dataLancamento)}`;
+    dataLancamentoDiv.appendChild(dataLancamentoLabel);
+    dataLancamentoDiv.appendChild(dataLancamento);
 
+    const desenvolvedoraDiv = document.createElement("div");
+    const desenvolvedoraLabel = document.createElement("span");
     const desenvolvedora = document.createElement("span");
+    desenvolvedoraLabel.innerText = "Desenvolvedor:";
     desenvolvedora.innerText = `${jogo.desenvolvedor}`;
+    desenvolvedoraDiv.appendChild(desenvolvedoraLabel);
+    desenvolvedoraDiv.appendChild(desenvolvedora);
 
     cardDetails.appendChild(tituloJogo);
-    cardDetails.appendChild(generoJogo);
-    cardDetails.appendChild(anoLancamento); 
-    cardDetails.appendChild(desenvolvedora);
+    cardDetails.appendChild(generoJogoDiv);
+    cardDetails.appendChild(dataLancamentoDiv); 
+    cardDetails.appendChild(desenvolvedoraDiv);
 
     const editBtn = document.createElement("a");
     editBtn.className = "edit-btn";
@@ -59,7 +78,7 @@ function criarNovoCard(jogo) {
     removeBtn.addEventListener("click", () => {
         if (confirm("Deseja remover o jogo da lista?")) {
             console.log(jogo)
-            deletarJogo(jogo._id).then(console.log);
+            deletarJogo(jogo._id);
             location.reload();
         }
     });
@@ -79,32 +98,27 @@ function criarNovoCard(jogo) {
     cardOptions.appendChild(removeBtn);
     cardOptions.appendChild(steamBtn);
 
-    const cardTop = document.createElement("div");
-    cardTop.className = "card-top";
-    cardTop.style.backgroundImage = `url(${jogo.image})`;
-    cardTop.appendChild(cardOptions);
-
-
-    cardJogo.appendChild(cardTop);
+    const cardImg = document.createElement("div");
+    cardImg.className = "card-img";
+    cardImg.style.backgroundImage = `url(${jogo.image})`;
+    
+    cardJogo.appendChild(cardImg);
     cardJogo.appendChild(cardDetails);
+    cardJogo.appendChild(cardOptions);
 
     gameList.appendChild(cardJogo);
 }
 
+function convertDateFormat(date) {
+  const parts = date.split('-');
+  const month = parts[0];
+  const day = parts[1];
+  const year = parts[2];
+
+  return `${day}/${month}/${year}`;
+}
+
 //primeira execução
 gameList.innerHTML = "";
-getJogos().then((arrayJogos) => {
-    arrayJogos.forEach((jogo) => {
-      criarNovoCard(jogo);
-    });
-  });
-
-//execuções seguintes - a cada 5s
-const intervalo = setInterval(() => {
-    gameList.innerHTML = "";
-    getJogos().then((arrayJogos) => {
-      arrayJogos.forEach((jogo) => {
-        criarNovoCard(jogo);
-      });
-    });
-  }, 5000);
+console.log("foo1");
+arrayJogos.forEach((jogo) => { criarNovoCard(jogo); });
